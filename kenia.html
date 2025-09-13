@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños - Para Mi Niña Bella</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+        
+        .additional-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("was/Captura de pantalla 2025-07-29 132819.jpg") no-repeat center center;
+            background-size: cover;
+            opacity: 0.2;
+            z-index: -2;
+        }
+        
+        .card-container {
+            perspective: 1500px;
+            width: 525px;
+            height: 750px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            border-radius: 30px;
+            box-shadow: 0 22px 52px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        
+        .card.open {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-inside {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 45px;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .card-front {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+        }
+        
+        .card-inside {
+            background: white;
+            transform: rotateY(180deg);
+            color: #333;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .message-container {
+            max-height: 180px;
+            overflow-y: auto;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .cake-container {
+            margin: 20px 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .cake-img {
+            width: 210px;
+            height: 210px;
+            object-fit: cover;
+            border-radius: 50%;
+            animation: bounce 2s infinite;
+            box-shadow: 0 7px 22px rgba(0, 0, 0, 0.2);
+            border: 6px solid white;
+        }
+        
+        .medium {
+            width: 210px;
+            height: 210px;
+        }
+        
+        .large {
+            width: 270px;
+            height: 270px;
+        }
+        
+        .balloons {
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            margin: 20px 0;
+        }
+        
+        .balloon {
+            width: 45px;
+            height: 60px;
+            border-radius: 50%;
+            animation: float 4s infinite ease-in-out;
+        }
+        
+        .balloon:nth-child(1) {
+            background-color: #ff6b6b;
+            animation-delay: 0s;
+        }
+        
+        .balloon:nth-child(2) {
+            background-color: #4ecdc4;
+            animation-delay: 0.5s;
+        }
+        
+        .balloon:nth-child(3) {
+            background-color: #ffd166;
+            animation-delay: 1s;
+        }
+        
+        .instructions {
+            position: absolute;
+            bottom: 30px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .signature {
+            margin-top: 30px;
+            font-style: italic;
+            font-weight: bold;
+            align-self: flex-end;
+            font-size: 18px;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .controls h3 {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .size-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .size-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            background: #ff6b6b;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .size-btn:hover {
+            background: #ff5252;
+        }
+        
+        /* Nuevos estilos para controles de música */
+        .music-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .music-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #4ecdc4;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .music-btn:hover {
+            background: #3bb5ac;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px); }
+        }
+        
+        @media (max-width: 600px) {
+            .card-container {
+                width: 90%;
+                height: auto;
+                min-height: 600px;
+            }
+            
+            .card-front, .card-inside {
+                padding: 30px;
+            }
+            
+            .cake-img {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .controls, .music-controls {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                text-align: center;
+            }
+            
+            .size-buttons {
+                justify-content: center;
+            }
+            
+            .music-controls {
+                top: 10px;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="additional-bg"></div>
+    
+    <div class="card-container">
+        <div class="card" id="birthdayCard">
+            <div class="card-front">
+                <h1>¡Feliz Cumpleaños!</h1>
+                <div class="cake-container">
+                    <img src="was/WhatsApp Image 2025-08-01 at 1.51.36 AM (4).jpeg" alt="Pastel de cumpleaños" class="cake-img large" id="cakeImage">
+                </div>
+                <div class="balloons">
+                    <div class="balloon"></div>
+                    <div class="balloon"></div>
+                    <div class="balloon"></div>
+                </div>
+                <p class="instructions">click ala tarjeta nub</p>
+            </div>
+            <div class="card-inside">
+                <h1>Que te la pases muy grande combinacion en tu cumple y que no te pase tan karkerkur combinacion</h1>
+                <div class="message-container">
+                    <p>Te amo mucho mi niña bella. En tu día especial, te deseo mucha felicidad, salud y éxito en todos tus proyectos. ¡Eres lo más importante en mi vida y quiero que sepas lo especial que eres para mí! te amo demaciado eres lo que siempre en mi vida e querido, perdoname por darte algo feo en tu cumpleaños perdon pero puspus</p>
+                    <p>¡Que todos tus deseos se hagan realidad y que este nuevo año de vida esté lleno de momentos inolvidables!, que estes super bien que cumplas 1000000000000 años apra estar juntos toda la vida te amo miamor ksjdksdjk te amo mi rein a hermosa preciosa mi vida hermosa mi pandita te amo mucho con todo mi corazon te amo demaciado mucho mucho muhco</p>
+                </div>
+                <div class="cake-container">
+                    <img src="was/WhatsApp Image 2025-08-01 at 1.51.35 AM (5).jpeg" alt="Celebración" class="cake-img medium">
+                </div>
+                <p class="signature">Con mucho mucho cariño amor: Patric</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Controles de música -->
+    <div class="music-controls">
+        <h3>Música de Cumpleaños</h3>
+        <button class="music-btn" id="playBtn">Reproducir</button>
+        <button class="music-btn" id="pauseBtn">Pausar</button>
+        <div class="volume-control">
+            <label for="volume">Volumen:</label>
+            <input type="range" id="volume" min="0" max="1" step="0.1" value="0.5">
+        </div>
+    </div>
+    <!-- Elemento de audio (oculto) -->
+    <audio id="birthdaySong" loop>
+        <source src="Mañanitas con Miku Hatsune - Cris Kiryuu.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.getElementById('birthdayCard');
+            const audio = document.getElementById('birthdaySong');
+            const playBtn = document.getElementById('playBtn');
+            const pauseBtn = document.getElementById('pauseBtn');
+            const volumeControl = document.getElementById('volume');
+            
+            // Reproducir automáticamente al cargar la página
+            audio.volume = 0.5; // Volumen inicial al 50%
+            audio.play().catch(error => {
+                console.log('Reproducción automática prevenida: ', error);
+                // Si la reproducción automática falla, mostrar un mensaje
+                alert('Haz clic en "Reproducir" para iniciar la música');
+            });
+            
+            card.addEventListener('click', function() {
+                this.classList.toggle('open');
+            });
+            
+            // Controles de música
+            playBtn.addEventListener('click', function() {
+                audio.play();
+            });
+            
+            pauseBtn.addEventListener('click', function() {
+                audio.pause();
+            });
+            
+            volumeControl.addEventListener('input', function() {
+                audio.volume = this.value;
+            });
+        });
+        
+        function changeSize(size) {
+            const images = document.querySelectorAll('.cake-img');
+            
+            images.forEach(img => {
+                img.classList.remove('small', 'medium', 'large');
+                img.classList.add(size);
+            });
+            
+            const sizes = {
+                'small': 'pequeño',
+                'medium': 'mediano', 
+                'large': 'grande'
+            };
+            
+            alert(`Tamaño de imagen cambiado a ${sizes[size]}`);
+        }
+    </script>
+</body>
+</html>
